@@ -1,0 +1,784 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZUPATISNOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Boja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pozadina" Type="nvarchar" MaxLength="50" />
+          <Property Name="Obrub" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rezervirana" Type="bit" />
+        </EntityType>
+        <EntityType Name="Detalji">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Opis" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="VrijemePocetka" Type="datetime" Nullable="false" />
+          <Property Name="VrijemeZavrsetka" Type="datetime" Nullable="false" />
+          <Property Name="DaNe" Type="bit" Nullable="false" />
+          <Property Name="Placeno" Type="float" Nullable="false" />
+          <Property Name="VrijemeUpisa" Type="datetime" Nullable="false" />
+          <Property Name="NaruciteljID" Type="int" />
+          <Property Name="MjestoID" Type="int" Nullable="false" />
+          <Property Name="VrstaId" Type="int" Nullable="false" />
+          <Property Name="RezerviranaMisaID" Type="int" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KorisnickoIme" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lozinka" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mjesta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Br" Type="int" />
+          <Property Name="Mjesto" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PreferiraniTerminId" Type="int" Nullable="false" />
+          <Property Name="Obrisano" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Osobe">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Opaska" Type="nvarchar" MaxLength="500" />
+          <Property Name="OIB" Type="char" MaxLength="11" />
+          <Property Name="Adresa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mobitel" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Slika" Type="nvarchar(max)" />
+          <Property Name="DaNe" Type="bit" Nullable="false" />
+          <Property Name="Iznos" Type="float" />
+        </EntityType>
+        <EntityType Name="Rezervirane">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Opis" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Datum" Type="datetime" />
+          <Property Name="VrstaId" Type="int" Nullable="false" />
+          <Property Name="Obrisano" Type="bit" />
+          <Property Name="NaruciteljID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Vrijeme" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vrsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ZupaTisno.dbo.vwOsobe' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwOsobe">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Ime" />
+            <PropertyRef Name="Prezime" />
+            <PropertyRef Name="Mobitel" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mobitel" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Detalji_Mjesta">
+          <End Role="Mjesta" Type="Self.Mjesta" Multiplicity="1" />
+          <End Role="Detalji" Type="Self.Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mjesta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="MjestoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalji_Osobe">
+          <End Role="Osobe" Type="Self.Osobe" Multiplicity="0..1" />
+          <End Role="Detalji" Type="Self.Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osobe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="NaruciteljID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalji_Rezervirane">
+          <End Role="Rezervirane" Type="Self.Rezervirane" Multiplicity="0..1" />
+          <End Role="Detalji" Type="Self.Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezervirane">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="RezerviranaMisaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalji_Vrsta">
+          <End Role="Vrsta" Type="Self.Vrsta" Multiplicity="1" />
+          <End Role="Detalji" Type="Self.Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="VrstaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mjesta_Termin">
+          <End Role="Termin" Type="Self.Termin" Multiplicity="1" />
+          <End Role="Mjesta" Type="Self.Mjesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mjesta">
+              <PropertyRef Name="PreferiraniTerminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervirane_Vrsta">
+          <End Role="Vrsta" Type="Self.Vrsta" Multiplicity="1" />
+          <End Role="Rezervirane" Type="Self.Rezervirane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezervirane">
+              <PropertyRef Name="VrstaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="MiseZaGodinu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="godina" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spPoImenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ime" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UkupnoMisa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Godina" Type="int" Mode="In" />
+        </Function>
+        <Function Name="VratiBrojMisaZaNarucitelje" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MjestoID" Type="int" Mode="In" />
+          <Parameter Name="Godina" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ZUPATISNOModelStoreContainer">
+          <EntitySet Name="Boja" EntityType="Self.Boja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detalji" EntityType="Self.Detalji" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mjesta" EntityType="Self.Mjesta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Osobe" EntityType="Self.Osobe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezervirane" EntityType="Self.Rezervirane" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termin" EntityType="Self.Termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vrsta" EntityType="Self.Vrsta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwOsobe" EntityType="Self.vwOsobe" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwOsobe].[Id] AS [Id], 
+    [vwOsobe].[Ime] AS [Ime], 
+    [vwOsobe].[Prezime] AS [Prezime], 
+    [vwOsobe].[Mobitel] AS [Mobitel]
+    FROM [dbo].[vwOsobe] AS [vwOsobe]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Detalji_Mjesta" Association="Self.FK_Detalji_Mjesta">
+            <End Role="Mjesta" EntitySet="Mjesta" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalji_Osobe" Association="Self.FK_Detalji_Osobe">
+            <End Role="Osobe" EntitySet="Osobe" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalji_Rezervirane" Association="Self.FK_Detalji_Rezervirane">
+            <End Role="Rezervirane" EntitySet="Rezervirane" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalji_Vrsta" Association="Self.FK_Detalji_Vrsta">
+            <End Role="Vrsta" EntitySet="Vrsta" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mjesta_Termin" Association="Self.FK_Mjesta_Termin">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="Mjesta" EntitySet="Mjesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervirane_Vrsta" Association="Self.FK_Rezervirane_Vrsta">
+            <End Role="Vrsta" EntitySet="Vrsta" />
+            <End Role="Rezervirane" EntitySet="Rezervirane" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZUPATISNOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ZUPATISNOEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Boja" EntityType="ZUPATISNOModel.Boja" />
+          <EntitySet Name="Detalji" EntityType="ZUPATISNOModel.Detalji" />
+          <EntitySet Name="Korisnik" EntityType="ZUPATISNOModel.Korisnik" />
+          <EntitySet Name="Mjesta" EntityType="ZUPATISNOModel.Mjesta" />
+          <EntitySet Name="Osobe" EntityType="ZUPATISNOModel.Osobe" />
+          <EntitySet Name="Termin" EntityType="ZUPATISNOModel.Termin" />
+          <EntitySet Name="Vrsta" EntityType="ZUPATISNOModel.Vrsta" />
+          <AssociationSet Name="FK_Detalji_Mjesta" Association="ZUPATISNOModel.FK_Detalji_Mjesta">
+            <End Role="Mjesta" EntitySet="Mjesta" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalji_Osobe" Association="ZUPATISNOModel.FK_Detalji_Osobe">
+            <End Role="Osobe" EntitySet="Osobe" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalji_Vrsta" Association="ZUPATISNOModel.FK_Detalji_Vrsta">
+            <End Role="Vrsta" EntitySet="Vrsta" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mjesta_Termin" Association="ZUPATISNOModel.FK_Mjesta_Termin">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="Mjesta" EntitySet="Mjesta" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="ZUPATISNOModel.sysdiagrams" />
+          <EntitySet Name="Rezervirane" EntityType="ZUPATISNOModel.Rezervirane" />
+          <AssociationSet Name="FK_Detalji_Rezervirane" Association="ZUPATISNOModel.FK_Detalji_Rezervirane">
+            <End Role="Rezervirane" EntitySet="Rezervirane" />
+            <End Role="Detalji" EntitySet="Detalji" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervirane_Vrsta" Association="ZUPATISNOModel.FK_Rezervirane_Vrsta">
+            <End Role="Vrsta" EntitySet="Vrsta" />
+            <End Role="Rezervirane" EntitySet="Rezervirane" />
+          </AssociationSet>
+          <FunctionImport Name="VratiBrojMisaZaNarucitelje" ReturnType="Collection(ZUPATISNOModel.VratiBrojMisaZaNarucitelje_Result)">
+            <Parameter Name="MjestoID" Mode="In" Type="Int32" />
+            <Parameter Name="Godina" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UkupnoMisa" ReturnType="Collection(ZUPATISNOModel.UkupnoMisa_Result)">
+          <Parameter Name="Godina" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="vwOsobe" EntityType="ZUPATISNOModel.vwOsobe" />
+          <FunctionImport Name="MiseZaGodinu" ReturnType="Collection(ZUPATISNOModel.MiseZaGodinu_Result)">
+            <Parameter Name="godina" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="spPoImenu" ReturnType="Collection(ZUPATISNOModel.spPoImenu_Result)">
+            <Parameter Name="Ime" Mode="In" Type="String" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="Boja">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pozadina" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Obrub" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rezervirana" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Detalji">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Opis" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VrijemePocetka" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VrijemeZavrsetka" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DaNe" Type="Boolean" Nullable="false" />
+          <Property Name="Placeno" Type="Double" Nullable="false" />
+          <Property Name="VrijemeUpisa" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NaruciteljID" Type="Int32" />
+          <Property Name="MjestoID" Type="Int32" Nullable="false" />
+          <Property Name="VrstaId" Type="Int32" Nullable="false" />
+          <Property Name="RezerviranaMisaID" Type="Int32" />
+          <NavigationProperty Name="Mjesta" Relationship="ZUPATISNOModel.FK_Detalji_Mjesta" FromRole="Detalji" ToRole="Mjesta" />
+          <NavigationProperty Name="Osobe" Relationship="ZUPATISNOModel.FK_Detalji_Osobe" FromRole="Detalji" ToRole="Osobe" />
+          <NavigationProperty Name="Vrsta" Relationship="ZUPATISNOModel.FK_Detalji_Vrsta" FromRole="Detalji" ToRole="Vrsta" />
+          <NavigationProperty Name="Rezervirane" Relationship="ZUPATISNOModel.FK_Detalji_Rezervirane" FromRole="Detalji" ToRole="Rezervirane" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KorisnickoIme" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lozinka" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Mjesta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mjesto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PreferiraniTerminId" Type="Int32" Nullable="false" />
+          <Property Name="Obrisano" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Detalji" Relationship="ZUPATISNOModel.FK_Detalji_Mjesta" FromRole="Mjesta" ToRole="Detalji" />
+          <NavigationProperty Name="Termin" Relationship="ZUPATISNOModel.FK_Mjesta_Termin" FromRole="Mjesta" ToRole="Termin" />
+          <Property Name="Br" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Osobe">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Opaska" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OIB" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="Adresa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobitel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Slika" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DaNe" Type="Boolean" Nullable="false" />
+          <Property Name="Iznos" Type="Double" />
+          <NavigationProperty Name="Detalji" Relationship="ZUPATISNOModel.FK_Detalji_Osobe" FromRole="Osobe" ToRole="Detalji" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Vrijeme" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Mjesta" Relationship="ZUPATISNOModel.FK_Mjesta_Termin" FromRole="Termin" ToRole="Mjesta" />
+        </EntityType>
+        <EntityType Name="Vrsta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Detalji" Relationship="ZUPATISNOModel.FK_Detalji_Vrsta" FromRole="Vrsta" ToRole="Detalji" />
+          <NavigationProperty Name="Rezervirane" Relationship="ZUPATISNOModel.FK_Rezervirane_Vrsta" FromRole="Vrsta" ToRole="Rezervirane" />
+        </EntityType>
+        <Association Name="FK_Detalji_Mjesta">
+          <End Type="ZUPATISNOModel.Mjesta" Role="Mjesta" Multiplicity="1" />
+          <End Type="ZUPATISNOModel.Detalji" Role="Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mjesta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="MjestoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalji_Osobe">
+          <End Type="ZUPATISNOModel.Osobe" Role="Osobe" Multiplicity="0..1" />
+          <End Type="ZUPATISNOModel.Detalji" Role="Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osobe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="NaruciteljID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalji_Vrsta">
+          <End Type="ZUPATISNOModel.Vrsta" Role="Vrsta" Multiplicity="1" />
+          <End Type="ZUPATISNOModel.Detalji" Role="Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="VrstaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mjesta_Termin">
+          <End Type="ZUPATISNOModel.Termin" Role="Termin" Multiplicity="1" />
+          <End Type="ZUPATISNOModel.Mjesta" Role="Mjesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mjesta">
+              <PropertyRef Name="PreferiraniTerminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Rezervirane">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Opis" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Datum" Type="DateTime" Precision="3" />
+          <Property Name="VrstaId" Type="Int32" Nullable="false" />
+          <Property Name="Obrisano" Type="Boolean" />
+          <Property Name="NaruciteljID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Detalji" Relationship="ZUPATISNOModel.FK_Detalji_Rezervirane" FromRole="Rezervirane" ToRole="Detalji" />
+          <NavigationProperty Name="Vrsta" Relationship="ZUPATISNOModel.FK_Rezervirane_Vrsta" FromRole="Rezervirane" ToRole="Vrsta" />
+        </EntityType>
+        <Association Name="FK_Detalji_Rezervirane">
+          <End Type="ZUPATISNOModel.Rezervirane" Role="Rezervirane" Multiplicity="0..1" />
+          <End Type="ZUPATISNOModel.Detalji" Role="Detalji" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezervirane">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Detalji">
+              <PropertyRef Name="RezerviranaMisaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervirane_Vrsta">
+          <End Type="ZUPATISNOModel.Vrsta" Role="Vrsta" Multiplicity="1" />
+          <End Type="ZUPATISNOModel.Rezervirane" Role="Rezervirane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezervirane">
+              <PropertyRef Name="VrstaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="VratiBrojMisaZaNarucitelje_Result">
+          <Property Type="Int32" Name="NaruciteljID" Nullable="true" />
+          <Property Type="String" Name="Prezime" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Ime" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Broj" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UkupnoMisa_Result">
+          <Property Type="Int32" Name="MjestoID" Nullable="false" />
+          <Property Type="Int32" Name="BrojMisa" Nullable="true" />
+          <Property Type="Int32" Name="BrojNarucitelja" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vwOsobe">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Ime" />
+            <PropertyRef Name="Prezime" />
+            <PropertyRef Name="Mobitel" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobitel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="MiseZaGodinu_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Opis" Nullable="false" MaxLength="200" />
+          <Property Type="DateTime" Name="VrijemePocetka" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="VrijemeZavrsetka" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="DaNe" Nullable="false" />
+          <Property Type="Double" Name="Placeno" Nullable="false" />
+          <Property Type="DateTime" Name="VrijemeUpisa" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="NaruciteljID" Nullable="true" />
+          <Property Type="Int32" Name="MjestoID" Nullable="false" />
+          <Property Type="Int32" Name="VrstaId" Nullable="false" />
+          <Property Type="Int32" Name="RezerviranaMisaID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spPoImenu_Result">
+          <Property Type="String" Name="Ime" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Prezime" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZUPATISNOModelStoreContainer" CdmEntityContainer="ZUPATISNOEntities">
+          <EntitySetMapping Name="Boja">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Boja">
+              <MappingFragment StoreEntitySet="Boja">
+                <ScalarProperty Name="Rezervirana" ColumnName="Rezervirana" />
+                <ScalarProperty Name="Obrub" ColumnName="Obrub" />
+                <ScalarProperty Name="Pozadina" ColumnName="Pozadina" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detalji">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Detalji">
+              <MappingFragment StoreEntitySet="Detalji">
+                <ScalarProperty Name="RezerviranaMisaID" ColumnName="RezerviranaMisaID" />
+                <ScalarProperty Name="VrstaId" ColumnName="VrstaId" />
+                <ScalarProperty Name="MjestoID" ColumnName="MjestoID" />
+                <ScalarProperty Name="NaruciteljID" ColumnName="NaruciteljID" />
+                <ScalarProperty Name="VrijemeUpisa" ColumnName="VrijemeUpisa" />
+                <ScalarProperty Name="Placeno" ColumnName="Placeno" />
+                <ScalarProperty Name="DaNe" ColumnName="DaNe" />
+                <ScalarProperty Name="VrijemeZavrsetka" ColumnName="VrijemeZavrsetka" />
+                <ScalarProperty Name="VrijemePocetka" ColumnName="VrijemePocetka" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisnik">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="Lozinka" ColumnName="Lozinka" />
+                <ScalarProperty Name="KorisnickoIme" ColumnName="KorisnickoIme" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mjesta">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Mjesta">
+              <MappingFragment StoreEntitySet="Mjesta">
+                <ScalarProperty Name="Br" ColumnName="Br" />
+                <ScalarProperty Name="Obrisano" ColumnName="Obrisano" />
+                <ScalarProperty Name="PreferiraniTerminId" ColumnName="PreferiraniTerminId" />
+                <ScalarProperty Name="Mjesto" ColumnName="Mjesto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Osobe">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Osobe">
+              <MappingFragment StoreEntitySet="Osobe">
+                <ScalarProperty Name="Iznos" ColumnName="Iznos" />
+                <ScalarProperty Name="DaNe" ColumnName="DaNe" />
+                <ScalarProperty Name="Slika" ColumnName="Slika" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobitel" ColumnName="Mobitel" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Adresa" ColumnName="Adresa" />
+                <ScalarProperty Name="OIB" ColumnName="OIB" />
+                <ScalarProperty Name="Opaska" ColumnName="Opaska" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termin">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Termin">
+              <MappingFragment StoreEntitySet="Termin">
+                <ScalarProperty Name="Vrijeme" ColumnName="Vrijeme" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vrsta">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Vrsta">
+              <MappingFragment StoreEntitySet="Vrsta">
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezervirane">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.Rezervirane">
+              <MappingFragment StoreEntitySet="Rezervirane">
+                <ScalarProperty Name="NaruciteljID" ColumnName="NaruciteljID" />
+                <ScalarProperty Name="Obrisano" ColumnName="Obrisano" />
+                <ScalarProperty Name="VrstaId" ColumnName="VrstaId" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="VratiBrojMisaZaNarucitelje" FunctionName="ZUPATISNOModel.Store.VratiBrojMisaZaNarucitelje">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ZUPATISNOModel.VratiBrojMisaZaNarucitelje_Result">
+                <ScalarProperty Name="NaruciteljID" ColumnName="NaruciteljID" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Broj" ColumnName="Broj" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UkupnoMisa" FunctionName="ZUPATISNOModel.Store.UkupnoMisa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ZUPATISNOModel.UkupnoMisa_Result">
+                <ScalarProperty Name="MjestoID" ColumnName="MjestoID" />
+                <ScalarProperty Name="BrojMisa" ColumnName="BrojMisa" />
+                <ScalarProperty Name="BrojNarucitelja" ColumnName="BrojNarucitelja" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vwOsobe">
+            <EntityTypeMapping TypeName="ZUPATISNOModel.vwOsobe">
+              <MappingFragment StoreEntitySet="vwOsobe">
+                <ScalarProperty Name="Mobitel" ColumnName="Mobitel" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MiseZaGodinu" FunctionName="ZUPATISNOModel.Store.MiseZaGodinu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ZUPATISNOModel.MiseZaGodinu_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="VrijemePocetka" ColumnName="VrijemePocetka" />
+                <ScalarProperty Name="VrijemeZavrsetka" ColumnName="VrijemeZavrsetka" />
+                <ScalarProperty Name="DaNe" ColumnName="DaNe" />
+                <ScalarProperty Name="Placeno" ColumnName="Placeno" />
+                <ScalarProperty Name="VrijemeUpisa" ColumnName="VrijemeUpisa" />
+                <ScalarProperty Name="NaruciteljID" ColumnName="NaruciteljID" />
+                <ScalarProperty Name="MjestoID" ColumnName="MjestoID" />
+                <ScalarProperty Name="VrstaId" ColumnName="VrstaId" />
+                <ScalarProperty Name="RezerviranaMisaID" ColumnName="RezerviranaMisaID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ZUPATISNOModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ZUPATISNOModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ZUPATISNOModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ZUPATISNOModel.Store.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ZUPATISNOModel.Store.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ZUPATISNOModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ZUPATISNOModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="spPoImenu" FunctionName="ZUPATISNOModel.Store.spPoImenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ZUPATISNOModel.spPoImenu_Result">
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,54 @@
+﻿@model Mise.Web.ViewModels.Ispis.IspisRezultatVM
+
+@{
+    ViewBag.Title = "Ispis za osobu";
+}
+
+<h4 class="hidden-print text-center">@Model.Naslov</h4>
+<h4 class="visible-print text-center" style="margin-top:-40px;margin-bottom:-40px;">@Model.Naslov</h4>
+
+<table class="table table-hover" >
+    <thead>
+        <tr class="body-content">
+            <th>
+                Datum
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalji.First().Opis)
+             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalji.First().OsobaPunoIme)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Detalji)
+        {
+            <tr>
+
+                <td class="col-xs-3">
+                    @Html.DisplayFor(modelItem => item.EventStartTimeStamp)
+                </td>
+
+                <td class="col-xs-6">
+
+                    @if (item.ZaPokojne)
+                    {
+                        @*<text>&#x2670;</text>
+                        <text>&#2363;</text>*@
+                        <text>&#8224;</text>
+
+}
+                    @Html.DisplayFor(modelItem => item.Opis)
+
+                </td>
+                <td class="col-xs-3">
+                   @Html.DisplayFor(modelItem => item.OsobaPunoIme)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+
+</table>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Mise.Web.ViewModels.Mjesta.MjestaVM>
+
+@{
+    ViewBag.Title = "Mjesta";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Dodaj novo mjesto", "Dodaj")
+</p>
+<table class="table">
+    <tr>
+        
+          <th>
+            @Html.DisplayNameFor(model => model.Mjesto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreferiraniTermin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Mjesto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PreferiraniTermin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Uredi", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Brisi", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/fullcalendar.css" rel="stylesheet" />
+
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/fullcalendar.js"></script>
+<script src="~/Scripts/fullcalendar/hr.js"></script>
+<script src="~/Scripts/fullcalendar/de.js"></script>
+
+<script src="~/Scripts/calendar/CalendarInfrastructure.js"></script>
+<script src="~/Scripts/calendar/CalendarApi.js"></script>
+
+<script src="~/Scripts/calendar/JaviSe.js"></script>
+
+<h2> Kalendar -pregled </h2>
+
+ 
+
+<script>
+
+    //var nasObjekt = new JaviSe("Ivo");
+    //nasObjekt.Test();
+
+    var cal;
+
+    var addresses = new CalendarAddresses('@Url.Action("CreateTemp")', '@Url.Action("UpdateTemp")', '@Url.Action("Get")');
+    var calendarApi = new CalendarApi(addresses);
+
+    $(document).ready(function () {
+        cal = $("#Kal");
+
+        cal.fullCalendar({
+            
+            hover: function () {
+                cal.css("cursor", "pointer");
+                   
+                //function () {
+                //    $(this).css('cursor', 'auto');
+                //}
+                
+            },
+
+
+
+            locale: "hr",
+            defaultDate: moment('@Model.TrenutniDatum'),
+
+            events: calendarApi.Load,
+            eventClick: function (calEvent, jsEvent, view) {
+                calendarApi.Update(calEvent);
+            },
+            selectable: true,
+            selectHelper: true,
+            select: function (start, end) {
+                cal.fullCalendar('unselect');
+                calendarApi.Create(start, end);
+            },
+            displayEventTime: false,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'agendaDay,agendaWeek,month'
+            },
+            views: {
+                listDay: { buttonText: 'Danas', titleFormat: 'D.MMMM YYYY.' },
+                listWeek: { buttonText: 'Tjedan', titleFormat: 'D.MMMM YYYY.' },
+                month: { titleFormat: 'MMMM YYYY.' }
+            },
+            defaultView: 'month',
+
+
+            eventRender: function (event, element, view) {
+                var title = "";
+
+                try {
+                    if (view.name == "agendaDay") {
+                        title = event.GetLongTitle(event);
+                    }
+                    else {
+                        title = event.GetShortTitle(event);
+                    }
+                }
+                catch (exception) {
+
+                }
+
+                element.find('.fc-title').html(title);
+            },
+
+            
+    });
+
+
+
+});
+
+    
+
+
+
+</script>
+
+
+
+
+
+<div id="Kal" style="cursor: pointer; width:800px">
+       
+
+
+</div>
+

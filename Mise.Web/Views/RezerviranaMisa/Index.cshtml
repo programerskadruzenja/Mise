@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Mise.Web.ViewModels.Rezervirane.RezerviranaMisaVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Rezervirane mise</h2>
+
+<p>
+    @Html.ActionLink("Dodaj rezervirani termin", "Dodaj")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.br)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Narucitelj)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Opis)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Vrsta)
+        </th>*@
+        <th> Opcije </th>
+</tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.br) 
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Narucitelj)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naziv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Opis)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Vrsta)
+        </td>*@
+        <td>
+            @Html.ActionLink("Ažuriraj", "Uredi", new {id=item.ID }) |
+            @*@Html.ActionLink("Details", "Details", new {id=item.ID }) |*@
+            @Html.ActionLink("Brisanje", "Brisi", new {id=item.ID})
+        </td>
+    </tr>
+}
+
+</table>

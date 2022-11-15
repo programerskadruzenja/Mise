@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Mise.Web.ViewModels.VrstaVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Unesi novi zapis", "Dodaj")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naziv)
+        </td>
+        <td>
+            @Html.ActionLink("Ažuriraj", "Uredi", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Brisanje", "Brisi", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

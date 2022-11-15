@@ -1,0 +1,79 @@
+﻿@model Mise.Web.ViewModels.Rezervirane.RezerviranaMisaEM
+
+@{
+    ViewBag.Title = "Brisi";
+}
+
+<div class="text-danger">
+    
+    <h1> Brisi rezervirani termin</h1>
+
+    <h3>Želite li izbrisati rezervirani termin?</h3>
+
+</div>
+
+<div>
+    <h4>Rezervirana misa</h4>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+
+        <dd>
+        @Html.DisplayFor(model => model.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Datum)
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.Datum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Narucitelji)
+        </dt>
+        <dd >
+            @Html.DisplayFor(model => model.Narucitelji)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VrstaID)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.VrstaID)*@
+            @Html.DropDownListFor(model=> model.VrstaID, new SelectList (Model.Vrste,"Value", "Text", Model.VrstaID))
+        </dd>
+
+        
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Izbriši" class="btn btn-default" /> |
+            @Html.ActionLink("Povratak na listu", "Index", new {id = Model.ID })
+        </div>
+    }
+</div>

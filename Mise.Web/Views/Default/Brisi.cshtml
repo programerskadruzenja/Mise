@@ -1,0 +1,46 @@
+﻿@model Mise.Web.ViewModels.Termin.TerminVM
+
+@{
+    ViewBag.Title = "Brisi";
+}
+
+<h2>Brisi</h2>
+
+<h3 class="text-danger">
+    <span class="glyphicon glyphicon-warning-sign" ></span>
+    Jeste li sigurni da želite obrisati ovaj zapis?
+</h3>
+
+<div>
+    <h4>TerminVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vrijeme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vrijeme)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m=>m.Id)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Obriši" class="btn btn-danger" /> |
+            @Html.ActionLink("Natrag", "Index")
+        </div>
+    }
+</div>

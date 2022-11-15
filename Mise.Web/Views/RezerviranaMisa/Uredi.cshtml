@@ -1,0 +1,145 @@
+﻿@model Mise.Web.ViewModels.Rezervirane.RezerviranaMisaEM
+
+@{
+    ViewBag.Title = "Uredi";
+}
+
+<h2> Uredi </h2>
+
+
+<link href="~/Content/easy-autocomplete.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.easy-autocomplete.js"></script>
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/datepicker-hr.js"></script>
+
+
+<script>
+
+    var osobaOptions = {
+        url: function (phrase) {
+            return '@Url.Action("Search", "Osobe")';
+        },
+
+        getValue: function (element) {
+            return element.PunoIme;
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+
+        preparePostData: function (data) {
+            data.term = $("#Narucitelji").val();
+            return data;
+        },
+
+        requestDelay: 200,
+        adjustWidth: true,
+        list: {
+            onSelectItemEvent: function () {
+                var itemData = $("#Narucitelji").getSelectedItemData();
+                $("#NaruciteljId").val(itemData.Id);
+            }
+        }
+    };
+
+
+    $(document).ready (function (){
+
+        $("#Narucitelji").easyAutocomplete(osobaOptions);
+        $("#Datum").datepicker($.datepicker.regional["hr"]);
+
+    });
+
+
+
+
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Ažuriraj rezerviranu misu</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Datum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Naziv, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Naziv, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Naziv, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.NaruciteljId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => Model.NaruciteljId)
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.NaruciteljId, new SelectList(Model.Narucitelji, "Value", "Text", Model.NaruciteljId), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NaruciteljId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Narucitelji, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.NaruciteljId)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Narucitelji, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Narucitelji, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.NaruciteljId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.VrstaID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.VrstaID, new SelectList(Model.Vrste, "Value", "Text", Model.VrstaID), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.VrstaID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+} 
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+ 
+     

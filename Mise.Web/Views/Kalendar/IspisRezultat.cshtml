@@ -1,0 +1,52 @@
+﻿@model Mise.Web.ViewModels.Ispis.IspisRezultatVM
+
+@{
+    ViewBag.Title = "Ispis";
+}
+
+<h3 class="text-center hidden-print">@Model.Naslov</h3>
+<h3 class="text-center visible-print" style="margin-top:-40px;">@Model.Naslov</h3>
+
+<table class="table-condensed">
+    <thead>
+        <tr>
+            <th class="col-xs-3">
+                Datum
+            </th>
+            <th class="col-xs-3">                
+                @Html.DisplayNameFor(model => model.Detalji.First().Opis)
+            </th>
+           
+        </tr>
+    </thead>
+@foreach (var item in Model.Detalji)
+    {
+    <tr style="font-size:14px">
+        
+        <td class="col-xs-1">
+            @Html.DisplayFor(modelItem => item.EventStartTimeStamp)
+        </td>
+
+        <td class="col-xs-6">
+
+            @if (item.ZaPokojne)
+            { 
+               @*<text>&#x2670;</text>*@
+                @*<text>&#2363;</text>*@
+                <text>&#8224;</text>
+}
+
+            @Html.DisplayFor(modelItem => item.Opis)
+           
+         </td>
+
+        <td class="col-xs-3">
+            @Html.DisplayFor(modelItem => item.OsobaPunoIme)
+        </td>
+
+    </tr>
+    }
+
+</table>
+
+

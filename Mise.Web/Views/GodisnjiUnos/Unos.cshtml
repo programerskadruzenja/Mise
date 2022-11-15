@@ -1,0 +1,77 @@
+﻿@model Mise.Web.ViewModels.GodisnjiUnos.GodisnjiUnosEM
+
+@{
+    ViewBag.Title = "Unos rezerviranih misa za @Model.Godina. godinu";
+}
+
+<h3>Unos rezerviranih misa za @Model.Godina. godinu</h3>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div class="col-md-offset-0">
+        <div class="form-group">
+            <div class="col-md-offset-1">
+                <input type="submit" value="Potvrdi" class="btn btn-primary" />
+            </div>
+        </div>
+
+        </div>
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-2"> Naziv i opis  </th>
+                        <th class="col-md-1"> Datum  </th>
+
+                        @foreach (var mjesto in Model.Mjesta)
+                        {
+                            <th class="col-md-2">@mjesto</th>
+                        }
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+                    @for (int i = 0; i < Model.Retci.Count; i++)
+                {
+                    var redak = Model.Retci[i];
+                        <tr>
+                            <td>
+                                <input type="hidden" name="Retci[@i].RezerviranaMisaID" value="@redak.RezerviranaMisaID" />
+                                <span>@redak.Naziv</span> ( <span style="font-style:italic">@redak.Opis</span> )
+                            </td>
+
+                            <td><input type="text" name="Retci[@i].Datum" value="@Model.Retci[i].Datum" /></td>
+
+                            @for (int j = 0; j < redak.Mise.Count; j++)
+                            {
+
+                                <td>
+                                    <input id="1" type="hidden" name="Retci[@i].Mise[@j].MjestoID" value="@Model.Retci[i].Mise[j].MjestoID" />
+                                    <input type="hidden" name="Retci[@i].Mise[@j].Mjesto" value="@Model.Retci[i].Mise[j].Mjesto" />
+                                    <input name="Retci[@i].Mise[@j].PotvrdiMisu" type="checkbox" checked="@Model.Retci[i].Mise[j].PotvrdiMisu" />
+                                </td>
+                            }
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+
+
+}
+
+
+
+
+

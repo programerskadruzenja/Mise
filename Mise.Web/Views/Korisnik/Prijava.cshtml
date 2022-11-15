@@ -1,0 +1,70 @@
+﻿@model Mise.Web.ViewModels.Korisnik.PrijavaVM
+
+@{
+    ViewBag.Title = "Prijava";
+    Layout = "~/Views/Shared/_LayoutPrazan.cshtml";
+}
+
+<br />
+
+<h2 class="col-lg-offset-12 text-center text-info">Župa Svetoga Duha Tisno. <br />Hvaljen Isus i Marija.</h2>
+
+<div class="col-lg-12">
+
+    
+    
+    <div class="col-lg-4">
+        <img src="@Url.Content("~/Slike/Gospa.jpg")" height="350" />
+       
+    </div>
+   
+    
+
+    <div class="form-horizontal col-lg-8">
+       
+         @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            
+
+                <h4 style="text-align:center"> Prijavite se </h4>
+
+                <hr />
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.KorisnickoIme, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.KorisnickoIme, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.KorisnickoIme, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Lozinka, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.PasswordFor(model => model.Lozinka, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Lozinka, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                
+                    <div class="form-group">
+                        <div class="col-md-offset-6">
+                            <input type="submit" value="Prijava" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+
+
+         }
+
+    </div>   
+    
+    
+</div>
+
+

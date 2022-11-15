@@ -1,0 +1,222 @@
+﻿@model Mise.Web.ViewModels.Detalji.DetaljiEM
+
+@{
+    ViewBag.Title = "Dogadaj";
+}
+
+<link href="~/Content/easy-autocomplete.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.easy-autocomplete.min.js"></script>
+
+<script>
+    var osobaOptions = {
+        url: function (phrase) {
+            return '@Url.Action("Search", "Osobe")';
+        },
+
+        getValue: function (element) {
+            return element.PunoIme;
+        },
+        
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+
+        preparePostData: function (data) {
+            data.term = $("#OsobaImeIPrezime").val();
+            return data;
+        },
+
+        requestDelay: 200,
+        adjustWidth: true,
+        list: {
+            maxNumberOfElements: 15,
+            onSelectItemEvent: function () {
+                var itemData = $("#OsobaImeIPrezime").getSelectedItemData();
+                $("#NaruciteljID").val(itemData.Id);
+            }
+        }
+    };
+
+    $(document).ready(function () {
+
+        $("#OsobaImeIPrezime").easyAutocomplete(osobaOptions);
+
+    });
+
+
+</script>
+<h2>Dogadaj</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4> Podaci o misi</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class=" form-group col-md-pull-6">
+            @if (Model.Kolizije != null)
+            {
+            <div class="form-group text-danger">
+                <div class="col-md-2 ">Kolizije</div>
+                <div class="col-md-10">
+                    <ul>
+                        @foreach (var kolizija in Model.Kolizije)
+                    {
+                            <li>&brvbar; @kolizija.Mjesto,  @kolizija.Opis   <br /> &brvbar; @kolizija.Osoba</li>
+                    }
+
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.KolizijaPotvrdena, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.KolizijaPotvrdena)
+                        @Html.ValidationMessageFor(model => model.KolizijaPotvrdena, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            }
+
+            </div>
+
+
+            <div class="form-group">
+                <div  class="col-md-2">
+                    @Html.LabelFor(model => model.VrijemeZavrsetka, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div  class="col-md-2">
+                        @Html.EditorFor(model => model.VrijemeZavrsetka, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.VrijemeZavrsetka, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Datum, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control col-mid-4" } })
+                    @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DaNe, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.DaNe)
+                        @Html.ValidationMessageFor(model => model.DaNe, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Placeno, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Placeno, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Placeno, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.VrijemeUpisa, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.VrijemeUpisa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.VrijemeUpisa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.HiddenFor(model => model.NaruciteljID)
+                @Html.LabelFor(model => model.OsobaImeIPrezime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OsobaImeIPrezime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OsobaImeIPrezime, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.NaruciteljID, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.VrijemePocetka, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.VrijemePocetka, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.VrijemePocetka, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+      
+                
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MjestoID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.MjestoID, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.MjestoID, new SelectList(Model.Mjesta, "Value", "Text", Model.Mjesta), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MjestoID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.VrstaId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.VrstaId, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownListFor(model => model.VrstaId, new SelectList(Model.Vrste, "Value", "Text", Model.VrstaId), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.VrstaId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-2">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+
+                
+            
+            <div class="form-group">
+                <div class="btn btn-default">
+                    @Html.ActionLink("Back to List", "Index")
+                    
+                </div>
+                @if (Model.ID.HasValue)
+                {
+                <div class= "btn btn-default">
+                    @Html.ActionLink("Briši zapis", "Brisi", new { id = Model.ID })
+                </div>
+                }
+            </div>
+
+
+
+        </div>
+          
+
+   
+}
+

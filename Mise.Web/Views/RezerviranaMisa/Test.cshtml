@@ -1,0 +1,107 @@
+﻿@model Evidencija.Web.ViewModels.GodisnjiUnos.GodisnjiUnosEM
+
+@{
+    ViewBag.Title = "Unos rezerviranih misa za @Model.Godina. godinu";
+}
+
+<h3>Unos rezerviranih misa za @Model.Godina. godinu</h3>
+@Html.HiddenFor(model => model.Godina)
+<p>&nbsp;</p>
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-2">
+                        Naziv i opis
+                    </th>
+                    <th class="col-md-1">
+                        Datum
+                    </th>
+                    @foreach (var mjesto in Model.Mjesta)
+                    {
+                        <th class="col-md-1" colspan="2">
+                            @mjesto
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int redakIndex = 0; redakIndex < Model.Retci.Count; redakIndex++)
+                {
+                    var redak = Model.Retci[redakIndex];
+
+                    <tr>
+                        <td>
+                            <input type="hidden" name="Retci[@redakIndex].RezerviranaMisaID" value="@redak.RezerviranaMisaID" />
+
+                            <span>@redak.Naziv</span>
+                            <input type="hidden" name="Retci[@redakIndex].Naziv" value="@redak.Naziv" />
+                            @if (redak.Opis != null)
+                            {
+                                <span style="font-style: italic"> (@redak.Opis)</span>
+                                <input type="hidden" name="Retci[@redakIndex].Opis" value="@redak.Opis" />
+                            }
+                        </td>
+                        <td>
+                            @if (redak.Pogreska)
+                            {
+                                <input type="text" name="Retci[@redakIndex].Datum" class="form-control text-right alert-danger" value="@redak.Datum" />
+                            }
+                            else
+                            {
+                                <input type="text" name="Retci[@redakIndex].Datum" class="form-control text-right" value="@redak.Datum" />
+                            }
+                        </td>
+                        @for (int misaIndex = 0; misaIndex < redak.Mise.Count; misaIndex++)
+                    {
+                        var misa = redak.Mise[misaIndex];
+                            <input type="hidden" name="Retci[@redakIndex].Mise[@misaIndex].MjestoID" value="@misa.MjestoID" />
+                            <td>
+                                @if (misa.PogreskaPocetak)
+                                {
+                                    <input type="text" name="Retci[@redakIndex].Mise[@misaIndex].Pocetak" class="form-control text-right alert-danger" value="@misa.Pocetak" />
+                                }
+                                else
+                                {
+                                    <input type="text" name="Retci[@redakIndex].Mise[@misaIndex].Pocetak" class="form-control text-right" value="@misa.Pocetak" />
+                                }
+                            </td>
+                            <td>
+                                @if (misa.PogreskaZavrsetak)
+                                {
+                                    <input type="text" name="Retci[@redakIndex].Mise[@misaIndex].Zavrsetak" class="form-control text-right alert-danger" value="@misa.Zavrsetak" />
+                                }
+                                else
+                                {
+                                    <input type="text" name="Retci[@redakIndex].Mise[@misaIndex].Zavrsetak" class="form-control text-right" value="@misa.Zavrsetak" />
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    if (Model.SadrziPogresku)
+    {
+        <div class="row">
+            <div class="col-md-offset-3">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        Ispravite vrijednosti označene crvenom bojom i nakon toga ponovno kliknite na gumb Potvrdi
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="col-md-offset-3">
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Potvrdi" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
